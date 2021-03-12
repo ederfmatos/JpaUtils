@@ -1,0 +1,56 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.exactaworks'
+version = '0.0.1'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.4.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ederfmatos/jpa-utils")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("GITHUBTOKEN")
+            }
+        }
+    }
+    publications {
+        publication(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+tasks {
+    bootJar {
+        archiveFileName.set("jpa-utils.jar")
+    }
+}
