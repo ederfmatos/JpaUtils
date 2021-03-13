@@ -39,7 +39,35 @@ public class SpecificationUtils {
     }
 
     public static <T> Specification<T> columnDateBetween(String column, LocalDate initialValue, LocalDate endValue) {
+        if (initialValue == null && endValue == null) {
+            return null;
+        }
+
+        if (initialValue == null) {
+            return lessThanOrEqualTo(column, endValue);
+        }
+
+        if (endValue == null) {
+            return greaterThanOrEqualTo(column, initialValue);
+        }
+
         return (root, query, builder) -> builder.between(root.get(column), initialValue, endValue);
+    }
+
+    public static <T> Specification<T> greaterThanOrEqualTo(String column, LocalDate value) {
+        if (value == null) {
+            return null;
+        }
+
+        return (root, query, builder) -> builder.greaterThanOrEqualTo(root.get(column), value);
+    }
+
+    public static <T> Specification<T> lessThanOrEqualTo(String column, LocalDate value) {
+        if (value == null) {
+            return null;
+        }
+
+        return (root, query, builder) -> builder.lessThanOrEqualTo(root.get(column), value);
     }
 
 }
