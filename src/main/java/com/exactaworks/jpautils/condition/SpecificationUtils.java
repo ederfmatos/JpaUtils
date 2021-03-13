@@ -2,6 +2,8 @@ package com.exactaworks.jpautils.condition;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
+
 public class SpecificationUtils {
 
     public static <T> Specification<T> columnIsEquals(String column, Object value) {
@@ -34,6 +36,10 @@ public class SpecificationUtils {
 
     public static <T> Specification<T> columnIsFalse(String column) {
         return (root, query, builder) -> builder.isFalse(root.get(column));
+    }
+
+    public static <T> Specification<T> columnDateBetween(String column, LocalDate initialValue, LocalDate endValue) {
+        return (root, query, builder) -> builder.between(root.get(column), initialValue, endValue);
     }
 
 }
