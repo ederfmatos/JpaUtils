@@ -6,31 +6,31 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JpaConditionBuilder<T> {
+public class JpaSpecificationBuilder<T> {
 
     private final Specification<T> firstSpecification;
     private final List<Condition<T>> conditions = new ArrayList<>();
 
-    private JpaConditionBuilder(Specification<T> firstSpecification) {
+    private JpaSpecificationBuilder(Specification<T> firstSpecification) {
         this.firstSpecification = firstSpecification;
     }
 
-    public static <T> JpaConditionBuilder<T> newCondition() {
-        return JpaConditionBuilder.newCondition((root, query, builder) -> builder.conjunction());
+    public static <T> JpaSpecificationBuilder<T> newCondition() {
+        return JpaSpecificationBuilder.newCondition((root, query, builder) -> builder.conjunction());
     }
 
-    public static <T> JpaConditionBuilder<T> newCondition(Specification<T> specification) {
-        return new JpaConditionBuilder<>(specification);
+    public static <T> JpaSpecificationBuilder<T> newCondition(Specification<T> specification) {
+        return new JpaSpecificationBuilder<>(specification);
     }
 
-    public JpaConditionBuilder<T> and(Specification<T> specification) {
+    public JpaSpecificationBuilder<T> and(Specification<T> specification) {
         if (specification != null) {
             this.conditions.add(new Condition<>(Predicate.BooleanOperator.AND, specification));
         }
         return this;
     }
 
-    public JpaConditionBuilder<T> or(Specification<T> specification) {
+    public JpaSpecificationBuilder<T> or(Specification<T> specification) {
         if (specification != null) {
             this.conditions.add(new Condition<>(Predicate.BooleanOperator.OR, specification));
         }
