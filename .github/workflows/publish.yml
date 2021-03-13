@@ -1,9 +1,6 @@
  name: Publish
 
  on:
-   push:
-     branches:
-       - feature/github-package-registry
    release:
      types:
        - created
